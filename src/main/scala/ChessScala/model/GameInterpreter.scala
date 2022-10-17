@@ -1,4 +1,4 @@
-package ChessScala
+package ChessScala.model
 
 class GameInterpreter extends Interpreter {
 
