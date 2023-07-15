@@ -8,7 +8,7 @@ import ChessScala.model.figureStrategies.strategyImplementations.{Bishop, BlackK
 class IdFactory extends Factory {
 
   override def createFigure(figure : String) : Figure =
-    figure.toInt match
+    figure.toInt match {
       case 1 => new Rook(Black) // blackRook
       case 2 => new Knight(Black) // blackKnight
       case 3 => new Bishop(Black) // blackBishop
@@ -27,6 +27,5 @@ class IdFactory extends Factory {
       case 16 => new EnPassantPawn(White)
       case 17 => new CastleRook(Black)
       case 18 => new CastleRook(White)
-
-
+    }
 }

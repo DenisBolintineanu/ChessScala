@@ -7,11 +7,10 @@ import ChessScala.model.figureStrategies.strategyImplementations.{Bishop, Knight
 class FigureFactory(team : Team) extends Factory {
 
   def createFigure(figure : String) : Figure =
-    figure.toLowerCase() match
+    figure.toLowerCase() match {
       case "bishop" => new Bishop(team)
       case "rook" => new Rook(team)
       case "knight" => new Knight(team)
       case "queen" => new Queen(team)
-
-
+    }
 }

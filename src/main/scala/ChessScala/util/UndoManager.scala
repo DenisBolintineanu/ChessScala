@@ -9,7 +9,7 @@ class UndoManager {
     command.doStep()
   }
   
-  def undoStep  = {
+  def undoStep(): Unit = {
     undoStack match {
       case  Nil =>
       case head::stack => {
@@ -19,7 +19,7 @@ class UndoManager {
       }
     }
   }
-  def redoStep = {
+  def redoStep(): Unit = {
     redoStack match {
       case Nil =>
       case head::stack => {
@@ -28,5 +28,8 @@ class UndoManager {
         undoStack=head::undoStack
       }
     }
+  }
+  def getMoveList: List[String] = {
+    undoStack.map(k => k.inputString)
   }
 }

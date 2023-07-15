@@ -13,4 +13,8 @@ trait IController extends Observable{
 
   def computeInput(input: String) : Unit
 
+  def returnMoveList(): List[String]
+
+  def returnBoardAsJson():String
+
 }

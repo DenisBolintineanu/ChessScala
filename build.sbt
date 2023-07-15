@@ -5,7 +5,8 @@ import scala.collection.Seq
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "3.2.0"
+ThisBuild / scalaVersion := "3.2.1"
+mainClass in (Compile, packageBin) := Some("ChessScala/MainClass")
 
 lazy val root = (project in file("."))
   .settings(
@@ -31,3 +32,7 @@ jacocoReportSettings := JacocoReportSettings(
 
 coverageEnabled := true
 
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", _*) => MergeStrategy.discard
+  case _                        => MergeStrategy.first
+}

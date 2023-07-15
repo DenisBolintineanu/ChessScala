@@ -39,9 +39,9 @@ class BoardBuilder(size : Int) {
     else insertPawn(board.insert(Coordinate(i, if(team == White) 1 else 6), new GroundPawn(team)), team, i+1)
 
 
-  def insertPawns(board : Board) : Board =
+  def insertPawns(board : Board) : Board = {
     val newBoard = insertPawn(board, Black)
     insertPawn(newBoard, White)
-
+  }
 
 }

@@ -3,6 +3,7 @@ import ChessScala.controller.IController
 import ChessScala.view.gui.{ChessBoardGUI, GUI}
 import ChessScala.view.TUI
 import com.google.inject.{Guice, Injector}
+import ChessScala.controller.Controller
 
 import scala.io.StdIn
 

@@ -1,5 +1,6 @@
 package ChessScala.controller
 import ChessScala.ChessModule
+import ChessScala.model.fileIO.fileIOJson.FileIO
 import ChessScala.model.gameState.*
 import ChessScala.model.gameState.ProgrammState
 import ChessScala.model.gameState.stateImplementation.GameState
@@ -21,10 +22,11 @@ class Controller @Inject() extends IController {
   val undoManager = new UndoManager
 
   override def computeInput(input: String): Unit =
-    input match
+    input match {
       case "undo" => undo()
       case "redo" => redo()
       case _ => doStep(input)
+    }
 
   override def printDescriptor(): Unit =
     output = state.interpreter.descriptor
@@ -36,10 +38,14 @@ class Controller @Inject() extends IController {
     notifyObservers()
 
   def undo(): Unit =
-    undoManager.undoStep
+    undoManager.undoStep()
     notifyObservers()
 
   def redo(): Unit =
-    undoManager.redoStep
+    undoManager.redoStep()
     notifyObservers()
+
+  override def returnMoveList(): List[String] = undoManager.getMoveList
+
+  override def returnBoardAsJson(): String = (new FileIO).gameToJson(state).toString
 }

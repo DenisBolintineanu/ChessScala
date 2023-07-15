@@ -10,7 +10,7 @@ import ChessScala.model.gameState.stateImplementation.{GameState, MenuState}
 class ControllerSpec extends AnyWordSpec with Matchers {
   "the Controller" should {
 
-    val controller : Controller = new Controller
+    val controller : Controller = new Controller()
 
     "start as an instance of the main-Menu" in {
       controller.state.isInstanceOf[MenuState] should be (true)
