@@ -19,8 +19,10 @@ class MultiplayerState(ip: String, port: String, id: String, val board: Board) e
     val result = ConnectionHandler.sendMoveRequest(id, input)
     val newBoard = JsonBoardBuilder.loadBoard(result)
     val stateString = JsonBoardBuilder.getState(result)
-    if (stateString == "\"MateState\"")
+    if (stateString == "\"MateState\"") {
+      ConnectionHandler.continuePolling = false
       return (new MateState("Checkmate", newBoard),"")
+    }
     (new MultiplayerState(ip, port, id, newBoard), interpreterResult._1)
   }
 }
