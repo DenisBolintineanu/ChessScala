@@ -32,7 +32,7 @@ object ConnectionHandler extends Observable {
 
   def startPolling(id: String): Unit = {
     new Thread(() => {
-      Thread.sleep(5000)
+      Thread.sleep(500)
       val requestString: String = "http://" + ip + ":" + port + pathForPolling
       val JsonBoardBuilder = new FileIO()
       continuePolling = true

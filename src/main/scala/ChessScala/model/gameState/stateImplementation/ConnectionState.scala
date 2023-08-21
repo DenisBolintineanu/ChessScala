@@ -22,7 +22,8 @@ class ConnectionState extends ProgrammState{
       println(id)
       return (new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, id, board), interpreterResult._1)
     }
-    (new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, input, board), interpreterResult._1)
+    val newState = new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, input, board)
+    (newState.doInput(""), interpreterResult._1)
   }
 
 }

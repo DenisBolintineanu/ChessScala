@@ -16,13 +16,20 @@ class MultiplayerState(ip: String, port: String, id: String, val board: Board) e
     if (!interpreterResult._2){
       return (this, interpreterResult._1)
     }
+    val newState = doInput(input)
+    if (newState.isInstanceOf[MateState])
+      return (newState, "Checkmate")
+    (newState, interpreterResult._1)
+  }
+
+  def doInput(input: String) : ProgrammState = {
     val result = ConnectionHandler.sendMoveRequest(id, input)
     val newBoard = JsonBoardBuilder.loadBoard(result)
     val stateString = JsonBoardBuilder.getState(result)
     if (stateString == "\"MateState\"") {
       ConnectionHandler.continuePolling = false
-      return (new MateState("Checkmate", newBoard),"")
+      return new MateState("Checkmate", newBoard)
     }
-    (new MultiplayerState(ip, port, id, newBoard), interpreterResult._1)
+    new MultiplayerState(ip, port, id, newBoard)
   }
 }
