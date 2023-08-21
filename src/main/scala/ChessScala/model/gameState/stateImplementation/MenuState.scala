@@ -25,7 +25,11 @@ class MenuState @Inject() extends ProgrammState {
 
     result match
       case false => (this, output)
-      case true => (new GameState(White, builder.createChessBoard()), output)
+      case true => {
+        if (input == "2")
+          return (new ConnectionState, output)
+        (new GameState(White, builder.createChessBoard()), output)
+      }
 
 
 }

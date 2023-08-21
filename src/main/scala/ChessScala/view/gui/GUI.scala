@@ -3,7 +3,7 @@ package ChessScala.view.gui
 import ChessScala.controller.IController
 import ChessScala.model.figureStrategies.White
 import ChessScala.model.gameState.*
-import ChessScala.model.gameState.stateImplementation.{GameState, MateState, MenuState, SelectState}
+import ChessScala.model.gameState.stateImplementation.{GameState, MateState, MenuState, MultiplayerState, SelectState}
 import ChessScala.util.Observer
 
 import javax.swing.{ImageIcon, JDialog, JOptionPane, WindowConstants}
@@ -73,6 +73,11 @@ class GUI(controller: IController) extends Frame with Observer {
   override def update(): Unit =
     controller.state match {
       case _: GameState => {
+        contents = ChessBoardGUI(controller)
+        dialog.visible = false
+      }
+
+      case _: MultiplayerState => {
         contents = ChessBoardGUI(controller)
         dialog.visible = false
       }

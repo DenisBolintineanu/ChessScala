@@ -20,6 +20,8 @@ lazy val root = (project in file("."))
     libraryDependencies += ("net.codingwell" %% "scala-guice" % "5.1.0").cross(CrossVersion.for3Use2_13),
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3",
     libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
+    libraryDependencies += ("com.softwaremill.sttp.client3" %% "core" % "3.8.13").cross(CrossVersion.for3Use2_13),
+
   )
 
 

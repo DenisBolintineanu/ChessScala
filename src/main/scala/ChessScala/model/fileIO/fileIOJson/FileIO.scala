@@ -5,7 +5,7 @@ import ChessScala.model.factory.factoryImplementation.IdFactory
 import ChessScala.model.figureStrategies.{Black, Figure, Team, White}
 import ChessScala.model.fileIO.FileIOInterface
 import ChessScala.model.gameState.*
-import ChessScala.model.gameState.stateImplementation.{GameState, SelectState}
+import ChessScala.model.gameState.stateImplementation.{GameState, SelectState, MateState}
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import net.codingwell.scalaguice.InjectorExtensions.*
@@ -39,8 +39,14 @@ class FileIO extends FileIOInterface {
   def gameToJson(state: ProgrammState): JsObject =
     Json.obj(
     "game" -> Json.obj(
-      "state" -> JsString("GameState"),
-      "team" -> JsString(teamToString(state.asInstanceOf[GameState])),
+      "state" -> JsString(state match {
+        case gameState: GameState => "GameState"
+        case mateState: MateState => "MateState"
+      }),
+      "team" -> (state match {
+        case gameState: GameState => JsString(teamToString(gameState))
+        case _ => JsString("")
+      }),
       "board" -> Json.toJson(for {field <- state.board.map} yield coordinateToJson(field._1, state.board))
     ))
 
@@ -49,12 +55,28 @@ class FileIO extends FileIOInterface {
 
   override def load(path: String): ProgrammState = {
 
-    val builder = new BoardBuilder(8)
-    var board: Board = builder.createEmptyBoard()
     val file: String = Source.fromFile(path + ".json").getLines().mkString
-    val json: JsValue = Json.parse(file)
+    val team = loadTeam(file)
+    val board = loadBoard(file)
+    new GameState(team, board)
+  }
+
+  def getState(JsonString: String): String = {
+    val json: JsValue = Json.parse(JsonString)
+    (json \ "game" \ "state").get.toString
+  }
+
+  def loadTeam(JsonString: String): Team = {
+    val json: JsValue = Json.parse(JsonString)
     val teamString: String = (json \ "game" \ "team").get.toString
     val team: Team = if (teamString == "\"White\"") White else Black
+    team
+  }
+
+  def loadBoard(JsonString: String): Board = {
+    val builder = new BoardBuilder(8)
+    var board: Board = builder.createEmptyBoard()
+    val json: JsValue = Json.parse(JsonString)
     val fields = (json \ "game" \ "board" \\ "coordinate")
     for (field <- fields) {
       val x: Int = (field \ "x").get.toString.toInt
@@ -73,7 +95,6 @@ class FileIO extends FileIOInterface {
       }
       board = board.insert(coordinate, figure)
     }
-    new GameState(team, board)
+    board
   }
-
 }
