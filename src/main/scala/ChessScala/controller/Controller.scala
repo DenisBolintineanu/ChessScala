@@ -3,7 +3,7 @@ import ChessScala.ChessModule
 import ChessScala.model.fileIO.fileIOJson.FileIO
 import ChessScala.model.gameState.*
 import ChessScala.model.gameState.ProgrammState
-import ChessScala.model.gameState.stateImplementation.GameState
+import ChessScala.model.gameState.stateImplementation.{BoardCreatorState, GameState}
 import ChessScala.util.{ConnectionHandler, Observable, Observer, UndoManager}
 import ChessScala.model.interpreter.Interpreter
 import ChessScala.model.interpreter.interpreterImplementations.MenuInterpreter
@@ -35,7 +35,8 @@ class Controller @Inject() extends IController, Observer {
     notifyObservers()
 
   def doStep(input: String): Unit =
-    if (state.isInstanceOf[GameState]) undoManager.doStep(new SetCommand(input, this))
+    if (state.isInstanceOf[GameState] || state.isInstanceOf[BoardCreatorState])
+      undoManager.doStep(new SetCommand(input, this))
     else new SetCommand(input, this).doStep()
     notifyObservers()
 
