@@ -14,5 +14,5 @@ class CreatorInterpreter extends Interpreter {
   def doWrongInput(input: String): (String, Boolean) = ("wrong input!", false)
 
   override val actions: Map[String, String => (String, Boolean)] =
-    Map((move, doMove), (moveWithSpace, doMove), (switchToGameState, doSwitchToGameState), (wrongInput, doWrongInput))
+    Map((wrongInput, doWrongInput), (move, doMove), (moveWithSpace, doMove), (switchToGameState, doSwitchToGameState))
 }
