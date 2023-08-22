@@ -36,7 +36,7 @@ class FileIO extends FileIOInterface {
     else "None"
 
 
-  def gameToJson(state: ProgrammState): JsObject =
+  def gameToJson(state: ProgrammState, increment: Int = 0): JsObject =
     Json.obj(
     "game" -> Json.obj(
       "state" -> JsString(state match {

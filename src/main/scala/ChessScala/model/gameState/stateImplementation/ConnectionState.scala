@@ -23,6 +23,7 @@ class ConnectionState extends ProgrammState{
       return (new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, id, board), interpreterResult._1)
     }
     val newState = new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, input, board)
+    ConnectionHandler.startPolling(input)
     (newState.doInput(""), interpreterResult._1)
   }
 

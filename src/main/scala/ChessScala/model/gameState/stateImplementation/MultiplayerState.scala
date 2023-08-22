@@ -30,6 +30,7 @@ class MultiplayerState(ip: String, port: String, id: String, val board: Board) e
       ConnectionHandler.continuePolling = false
       return new MateState("Checkmate", newBoard)
     }
+    ConnectionHandler.team = JsonBoardBuilder.loadTeam(result)
     new MultiplayerState(ip, port, id, newBoard)
   }
 }

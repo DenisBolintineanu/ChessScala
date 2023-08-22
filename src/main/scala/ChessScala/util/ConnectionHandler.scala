@@ -8,7 +8,7 @@ import ChessScala.model.fileIO.fileIOJson.FileIO
 
 object ConnectionHandler extends Observable {
   val backend: SttpBackend[Identity, Any] = HttpURLConnectionBackend()
-  val ip: String = "167.235.66.0"
+  val ip: String = "localhost"//167.235.66.0"
   val port: String = "9000"
   val pathForNewGame: String = "/clientRequest/createNewGameID"
   val pathForMoveRequest: String = "/clientRequest/move"
