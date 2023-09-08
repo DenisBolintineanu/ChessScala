@@ -21,7 +21,7 @@ class GameInterpreterSpec extends AnyWordSpec with Matchers {
   "The function processInputLine should" should {
     val result: String = "e2 moved to e4"
     val upperResult: String = "E2 moved to E4"
-    val wrongInput: String = "Wrong move. Please try again."
+    val wrongInput: String = "Wrong input! Please try again!"
 
     "return the correct string" in {
       didMove._1 should be (result)

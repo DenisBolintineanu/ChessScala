@@ -10,6 +10,7 @@ import ChessScala.model.moveChain.ChainImplementations.MoveHandler
 import ChessScala.model.moveChain.{GameChain, MoveDecoder}
 
 import scala.util.{Failure, Success, Try}
+import scala.annotation.retains
 
 
 class GameState(val team: Team, override val board: Board) extends ProgrammState {
@@ -19,6 +20,7 @@ class GameState(val team: Team, override val board: Board) extends ProgrammState
 
 
   override def handle(input: String): (ProgrammState, String) = {
+    if (input.length() < 4) return (this, "Wrong move. Please try again.")
     if (input == "save") {
       fileIO.save(this)
       return (this, "Game saved")
