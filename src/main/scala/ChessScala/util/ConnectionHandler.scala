@@ -13,6 +13,7 @@ object ConnectionHandler extends Observable {
   val pathForNewGame: String = "/clientRequest/createNewGameID"
   val pathForMoveRequest: String = "/clientRequest/move"
   val pathForPolling: String = "/clientRequest/gameboard"
+  val pathForJoining: String = "/clientRequest/join"
 
   def createNewGameID(): String = {
     val requestString = "http://" + ip + ":" + port + pathForNewGame
@@ -20,9 +21,15 @@ object ConnectionHandler extends Observable {
     request.send(backend).body.getOrElse("")
   }
 
-  def sendMoveRequest(id: String, move: String) : String = {
+  def joinGame(id: String): String = {
+    val requestString = "http://" + ip + ":" + port + pathForJoining
+    val request = basicRequest.post(uri"$requestString").body(Map("id" -> id))
+    request.send(backend).body.getOrElse("")
+  }
+
+  def sendMoveRequest(id: String, PlayerID: String, move: String) : String = {
     val requestString = "http://" + ip + ":" + port + pathForMoveRequest
-    val request = basicRequest.post(uri"$requestString").body(Map("id" -> id, "move" -> move))
+    val request = basicRequest.post(uri"$requestString").body(Map("id" -> id,"PlayerID" -> PlayerID, "move" -> move))
     request.send(backend).body.getOrElse("")
   }
 
@@ -30,13 +37,13 @@ object ConnectionHandler extends Observable {
   @volatile var state: ProgrammState = new MenuState
   @volatile var team: Team = White
 
-  def startPolling(id: String): Unit = {
+  def startPolling(id: String, PlayerID: String): Unit = {
     new Thread(() => {
-      Thread.sleep(500)
       val requestString: String = "http://" + ip + ":" + port + pathForPolling
       val JsonBoardBuilder = new FileIO()
       continuePolling = true
       while (continuePolling) {
+        Thread.sleep(500)
         val request = basicRequest.post(uri"$requestString").body(Map("id" -> id))
         val response: String = request.send(backend).body.getOrElse("")
         val newBoard = JsonBoardBuilder.loadBoard(response)
@@ -46,7 +53,7 @@ object ConnectionHandler extends Observable {
           continuePolling = false
         }
         if (JsonBoardBuilder.loadTeam(response) != team){
-          state = new MultiplayerState(ip, port, id, newBoard)
+          state = new MultiplayerState(id, PlayerID, newBoard)
           team = JsonBoardBuilder.loadTeam(response)
           notifyObservers()
         }

@@ -6,7 +6,7 @@ class MenuInterpreter extends Interpreter {
 
   override val descriptor: String = "Please enter 1 for a new game"
 
-  val newGame: String = "1|2|3"
+  val newGame: String = "1|2|3|(4(w|b))|(start server)"
   val wrongInput: String = ".*"
 
   def doNewGame(input: String): (String, Boolean) = ("", true)

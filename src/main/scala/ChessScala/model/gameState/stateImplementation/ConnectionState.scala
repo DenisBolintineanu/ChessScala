@@ -17,14 +17,16 @@ class ConnectionState extends ProgrammState{
       return (this, interpreterResult._1)
     }
     if (input == "new") {
-      val id: String = ConnectionHandler.createNewGameID()
-      ConnectionHandler.startPolling(id)
-      println(id)
-      return (new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, id, board), interpreterResult._1)
+      val id = ConnectionHandler.createNewGameID().split("\n")
+      val gameID: String = id(0)
+      val playerID: String = id(1)
+      ConnectionHandler.startPolling(gameID, playerID)
+      println(gameID)
+      return (new MultiplayerState(gameID, playerID, board), interpreterResult._1)
     }
-    val newState = new MultiplayerState(ConnectionHandler.ip, ConnectionHandler.port, input, board)
-    ConnectionHandler.startPolling(input)
-    (newState.doInput(""), interpreterResult._1)
+    val id = ConnectionHandler.joinGame(input)
+    ConnectionHandler.startPolling(input, id)
+    (new MultiplayerState(input, id, board), interpreterResult._1)
   }
 
 }

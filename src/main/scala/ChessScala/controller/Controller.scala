@@ -35,7 +35,7 @@ class Controller @Inject() extends IController, Observer {
     notifyObservers()
 
   def doStep(input: String): Unit =
-    if (state.isInstanceOf[GameState] || state.isInstanceOf[BoardCreatorState])
+    if (state.isInstanceOf[GameState] || (state.isInstanceOf[BoardCreatorState] && input != "exit"))
       undoManager.doStep(new SetCommand(input, this))
     else new SetCommand(input, this).doStep()
     notifyObservers()

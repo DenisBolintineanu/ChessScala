@@ -12,6 +12,7 @@ class BoardCreatorState(val team: Team, val board: Board) extends ProgrammState{
 
   override def handle(input: String): (ProgrammState, String) = {
     val resultString = interpreter.processInputLine(input)
+    if (!resultString._2) return (this, "")
     if (resultString._1 == "2") return (new GameState(team, board),"")
     val move: Move = MoveDecoder.decode(input)
     if (!board.is_occupied(move.start)) return (this,"")

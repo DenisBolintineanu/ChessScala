@@ -7,6 +7,14 @@ class SelectInterpreter extends Interpreter {
 
   override val descriptor: String = "Select a figure"
 
+  def selectFigureShort(figure: String):(String, Boolean) =
+    figure match
+      case "q" => ("Queen selected", true)
+      case "n" => ("Knight selected", true)
+      case "r" => ("Rook selected", true)
+      case "b" => ("Bishop selected", true)
+      case _ => selectFigure(figure)
+
   def selectFigure(figure : String): (String, Boolean) =
 
     figure.toLowerCase() match
@@ -17,7 +25,7 @@ class SelectInterpreter extends Interpreter {
       case _ => ("Non eligible figure", false)
 
 
-  val actions: Map[String, String => (String, Boolean)] = Map((".*", selectFigure))
+  val actions: Map[String, String => (String, Boolean)] = Map((".*", selectFigureShort))
 
 
 }

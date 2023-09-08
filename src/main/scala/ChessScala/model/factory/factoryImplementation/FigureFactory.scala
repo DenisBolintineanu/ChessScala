@@ -8,9 +8,9 @@ class FigureFactory(team : Team) extends Factory {
 
   def createFigure(figure : String) : Figure =
     figure.toLowerCase() match {
-      case "bishop" => new Bishop(team)
-      case "rook" => new Rook(team)
-      case "knight" => new Knight(team)
-      case "queen" => new Queen(team)
+      case "bishop" | "b" => new Bishop(team)
+      case "rook" | "r" => new Rook(team)
+      case "knight" | "n" => new Knight(team)
+      case "queen" | "q" => new Queen(team)
     }
 }

@@ -7,7 +7,9 @@ trait Interpreter {
   val descriptor: String
 
   final def selectRegEx(input: String): String => (String, Boolean) =
-    actions.filter(k => input.matches(k._1)).last._2
+    actions.filter(k => input.matches(k._1)).lastOption match
+      case Some(value) => value._2
+      case None => k => ("Wrong input! Please try again!", false)
 
   final def processInputLine(input: String): (String, Boolean) = selectRegEx(input)(input)
 }

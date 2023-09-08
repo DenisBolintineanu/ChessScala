@@ -1,7 +1,7 @@
 package ChessScala
 import ChessScala.controller.IController
 import ChessScala.view.gui.{ChessBoardGUI, GUI}
-import ChessScala.view.TUI
+import ChessScala.view.{StockfishAPI, TUI}
 import com.google.inject.{Guice, Injector}
 import ChessScala.controller.Controller
 
@@ -14,6 +14,7 @@ object MainClass {
 
   val tui = new TUI(controller)
   val gui = new GUI(controller)
+  val stockfish = new StockfishAPI(controller)
 
   @main def main():Unit =
     while(true){

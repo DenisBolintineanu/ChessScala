@@ -7,7 +7,7 @@ import ChessScala.model.interpreter.interpreterImplementations.GameInterpreter
 import ChessScala.util.ConnectionHandler
 import ChessScala.model.fileIO.fileIOJson.FileIO
 
-class MultiplayerState(ip: String, port: String, id: String, val board: Board) extends ProgrammState {
+class MultiplayerState(id: String, PlayerID: String, val board: Board) extends ProgrammState {
   override val interpreter: Interpreter = new GameInterpreter()
   val JsonBoardBuilder = new FileIO()
 
@@ -23,7 +23,7 @@ class MultiplayerState(ip: String, port: String, id: String, val board: Board) e
   }
 
   def doInput(input: String) : ProgrammState = {
-    val result = ConnectionHandler.sendMoveRequest(id, input)
+    val result = ConnectionHandler.sendMoveRequest(id, PlayerID, input)
     val newBoard = JsonBoardBuilder.loadBoard(result)
     val stateString = JsonBoardBuilder.getState(result)
     if (stateString == "\"MateState\"") {
@@ -31,6 +31,6 @@ class MultiplayerState(ip: String, port: String, id: String, val board: Board) e
       return new MateState("Checkmate", newBoard)
     }
     ConnectionHandler.team = JsonBoardBuilder.loadTeam(result)
-    new MultiplayerState(ip, port, id, newBoard)
+    new MultiplayerState(id, PlayerID, newBoard)
   }
 }

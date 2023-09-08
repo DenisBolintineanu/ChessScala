@@ -12,6 +12,7 @@ class GameInterpreter extends Interpreter {
   val undoMove: String = "undo"
   val redoMove: String = "redo"
   val wrongMove: String = ".*"
+  val selectFigure: String = "[a-hA-H][1-8][a-hA-H][1-8](r|n|b|q)"
 
 
   def doUndoMove(input: String): (String, Boolean) =
@@ -23,6 +24,9 @@ class GameInterpreter extends Interpreter {
   def doMove(input: String): (String, Boolean) =
     (s"${input(0)}${input(1)} moved to ${input(2)}${input(3)}", true)
 
+  def doSelectFigure(input: String): (String, Boolean) =
+    (s"${input(0)}${input(1)} moved to ${input(2)}${input(3)}/figure selected", true)
+
   def doMoveWithSpace(input: String): (String, Boolean) =
     (f"${input(0)}${input(1)} moved to ${input(3)}${input(4)}", true)
 
@@ -30,5 +34,5 @@ class GameInterpreter extends Interpreter {
     ("Wrong move. Please try again.",false)
 
   override val actions: Map[String, String => (String, Boolean)] =
-    Map((wrongMove, doWrongMove),(move,doMove), (moveWithSpace, doMoveWithSpace))
+    Map((move,doMove), (moveWithSpace, doMoveWithSpace),(selectFigure, doSelectFigure))
 }
