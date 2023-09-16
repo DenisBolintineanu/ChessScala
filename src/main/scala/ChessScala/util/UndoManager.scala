@@ -19,6 +19,17 @@ class UndoManager {
       }
     }
   }
+
+  def deleteStep(): Unit = {
+    undoStack match {
+      case  Nil =>
+      case head::stack => {
+        head.undoStep()
+        undoStack=stack
+      }
+    }
+  }
+
   def redoStep(): Unit = {
     redoStack match {
       case Nil =>

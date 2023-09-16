@@ -47,7 +47,7 @@ class FileIO extends FileIOInterface {
         case gameState: GameState => JsString(teamToString(gameState))
         case _ => JsString("")
       }),
-      "board" -> Json.toJson(for {field <- state.board.map} yield coordinateToJson(field._1, state.board))
+      "board" -> Json.toJson(for {field <- state.board.map if field._2.isDefined} yield coordinateToJson(field._1, state.board))
     ))
 
   def teamToString(state: GameState): String = if (state.team == White) "White" else "Black"

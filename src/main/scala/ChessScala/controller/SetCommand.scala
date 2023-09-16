@@ -15,7 +15,7 @@ class SetCommand(input: String, controller: Controller) extends Command {
   override def doStep(): Unit = {
     val result = controller.state.handle(input)
     if (result._1 == controller.state) {
-      controller.undoManager.undoStep()
+      controller.undoManager.deleteStep()
       controller.output = result._2
       return
     }
