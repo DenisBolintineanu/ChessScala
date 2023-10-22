@@ -8,7 +8,7 @@ import ChessScala.model.fileIO.fileIOJson.FileIO
 
 object ConnectionHandler extends Observable {
   val backend: SttpBackend[Identity, Any] = HttpURLConnectionBackend()
-  val ip: String = "localhost"//167.235.66.0"
+  val ip: String = "http://167.235.66.0"
   val port: String = "9000"
   val pathForNewGame: String = "/clientRequest/createNewGameID"
   val pathForMoveRequest: String = "/clientRequest/move"
@@ -16,19 +16,19 @@ object ConnectionHandler extends Observable {
   val pathForJoining: String = "/clientRequest/join"
 
   def createNewGameID(): String = {
-    val requestString = "http://" + ip + ":" + port + pathForNewGame
+    val requestString = ip + ":" + port + pathForNewGame
     val request = basicRequest.get(uri"$requestString")
     request.send(backend).body.getOrElse("")
   }
 
   def joinGame(id: String): String = {
-    val requestString = "http://" + ip + ":" + port + pathForJoining
+    val requestString = ip + ":" + port + pathForJoining
     val request = basicRequest.post(uri"$requestString").body(Map("id" -> id))
     request.send(backend).body.getOrElse("")
   }
 
   def sendMoveRequest(id: String, PlayerID: String, move: String) : String = {
-    val requestString = "http://" + ip + ":" + port + pathForMoveRequest
+    val requestString = ip + ":" + port + pathForMoveRequest
     val request = basicRequest.post(uri"$requestString").body(Map("id" -> id,"PlayerID" -> PlayerID, "move" -> move))
     request.send(backend).body.getOrElse("")
   }
@@ -39,7 +39,7 @@ object ConnectionHandler extends Observable {
 
   def startPolling(id: String, PlayerID: String): Unit = {
     new Thread(() => {
-      val requestString: String = "http://" + ip + ":" + port + pathForPolling
+      val requestString: String = ip + ":" + port + pathForPolling
       val JsonBoardBuilder = new FileIO()
       continuePolling = true
       while (continuePolling) {

@@ -20,8 +20,8 @@ class ConnectionState extends ProgrammState{
       val id = ConnectionHandler.createNewGameID().split("\n")
       val gameID: String = id(0)
       val playerID: String = id(1)
-      ConnectionHandler.startPolling(gameID, playerID)
       println(gameID)
+      ConnectionHandler.startPolling(gameID, playerID)
       return (new MultiplayerState(gameID, playerID, board), interpreterResult._1)
     }
     val id = ConnectionHandler.joinGame(input)
